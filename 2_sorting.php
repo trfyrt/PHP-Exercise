@@ -34,24 +34,24 @@
         // Ambil array dari form
         $nums1 = explode(',', $_POST['nums1']); // Pisah array 1 berdasarkan koma
         $nums1 = array_map('trim', $nums1); 
-        $nums2 = explode(',', $_POST['nums2']); // Pisah aray 2
+        $nums2 = explode(',', $_POST['nums2']); // Pisah array 2
         $nums2 = array_map('trim', $nums2);
 
         // Pastikan array cuman ada jumlah elemen yang sesuai
         $nums1 = array_slice($nums1, 0, $m); // Ambil sesuai m
-        $nums2 = array_slice($nums2, 0, $n); // Ambil sesui n
+        $nums2 = array_slice($nums2, 0, $n); // Ambil sesuai n
 
         // Kalau n > 0, isi nums1 dengan nol; kalau 0 diskip
         if ($n > 0) {
-            $nums1 = array_merge($nums1, array_fill(0, $n, 0)); // Isi nol di akhri
+            $nums1 = array_merge($nums1, array_fill(0, $n, 0)); // Isi nol di akhir
         }
 
         // Fungsi buat merge array
         function gabungkan(&$nums1, $m, $nums2, $n) {
-            // Indeks terakhr dari nums1 habis digabung
+            // Indeks terakhir dari nums1 habis digabung
             $terakhir = $m + $n - 1;
 
-            // Gabungkan dari urutan belakng
+            // Gabungkan dari urutan belakang
             while ($m > 0 && $n > 0) {
                 if ($nums1[$m - 1] > $nums2[$n - 1]) {
                     $nums1[$terakhir] = $nums1[$m - 1];
@@ -74,9 +74,17 @@
         // Gabungkan array
         gabungkan($nums1, $m, $nums2, $n);
 
+        // Hapus angka 0
+        $nums1 = array_filter($nums1, function($value) {
+            return $value !== "0" && $value !== 0; // Hapus nilai 0
+        });
+
+        // Urtkan array hasil gabungan
+        sort($nums1, SORT_NUMERIC);
+
         // Tampilkan hasil gabungan
         echo "<h2>Array yang Digabungkan:</h2>";
-        echo implode(", ", $nums1); // Tampilkan hasil
+        echo implode(", ", $nums1); 
     }
     ?>
 </body>
